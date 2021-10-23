@@ -1,3 +1,7 @@
+# Universités
+
+Projet scolaire illustrant un ensemble de données autour de plusieurs universités.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
