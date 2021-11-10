@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AffichageUniversites from "../composants/AffichageUniversites";
+import AffichageUniversites from "../composants/AffichageUniversites.js";
 import "../style/Universite.css";
 
 export default class Universite extends Component {

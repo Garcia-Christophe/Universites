@@ -1,10 +1,12 @@
 const mariadb = require("mariadb");
 const express = require("express");
 const app = express();
+const cors = require("cors");
 require("dotenv").config();
 
 // Middleware
-app.use(express.json());
+// app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 // Écoute du serveur
 app.listen(8080, () => {
@@ -406,6 +408,7 @@ function requete(conn, res, query) {
     .query(query)
     .then((rows) => {
       res.status(200).json(rows);
+      console.log(rows);
     })
     .catch((err) => {
       console.log(err);
