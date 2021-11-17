@@ -14,17 +14,21 @@ export default class FormationsChoisies extends Component {
         <ul className="liste-selection-formations">
           {this.state.formations.map((formation) => {
             return (
-              <li>
+              <li className="item-liste-selection-formations">
                 <input
                   checked={formation.cochee}
                   onChange={() => {
                     var listeAJour = this.state.formations;
-                    // listeAJour.find((f) -> f.idFormation === formation.idFormation).cochee = !formation.cochee;
+                    listeAJour.find(
+                      (f) => f.idFormation === formation.idFormation
+                    ).cochee = !formation.cochee;
                     this.setState({ formations: listeAJour });
                   }}
                   type="checkbox"
                 />
-                {formation.idFormation} - {formation.type} {formation.niveau}
+                <p>
+                  {formation.type} {formation.niveau} - {formation.nomParcours}
+                </p>
               </li>
             );
           })}

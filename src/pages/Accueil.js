@@ -15,7 +15,7 @@ export default class Accueil extends Component {
       <div className="principal-accueil">
         <img src={logo} className="logo" alt="logo" />
         <br />
-        <p>Bienvenue sur l'application web des universités !</p>
+        <h3>Bienvenue sur l'application web des universités !</h3>
       </div>
     );
   }

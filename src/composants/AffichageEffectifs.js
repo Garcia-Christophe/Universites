@@ -10,6 +10,7 @@ export default class AffichageEffectifs extends Component {
     return (
       <div>
         <h2>Effectifs</h2>
+        <p>Affichage du tableau ou du graphique...</p>
       </div>
     );
   }

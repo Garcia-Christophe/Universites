@@ -20,6 +20,18 @@ export default class Effectif extends Component {
   }
 
   componentDidMount() {
+    var listeParcours = [];
+    fetch("http://localhost:8080/parcours")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          listeParcours = result;
+        },
+        (error) => {
+          console.log("Erreur : " + error);
+        }
+      );
+
     fetch("http://localhost:8080/formation")
       .then((res) => res.json())
       .then(
@@ -30,6 +42,9 @@ export default class Effectif extends Component {
               idFormation: formation.idFormation,
               type: formation.type,
               niveau: formation.niveau,
+              nomParcours: listeParcours.find(
+                (p) => p.idParcours === formation.Parcours_idParcours
+              ).nomParcours,
               cochee: false,
             });
           });
@@ -46,10 +61,13 @@ export default class Effectif extends Component {
       <div className="principal-effectif">
         <div className="panels-formation">
           {this.state.formations[0].idFormation !== 0 && (
-            <FormationsChoisies formations={this.state.formations} />
+            <FormationsChoisies
+              style={{ width: "33%" }}
+              formations={this.state.formations}
+            />
           )}
-          <AffichageEffectifs />
-          <SelectionFormation />
+          <AffichageEffectifs style={{ width: "33%" }} />
+          <SelectionFormation style={{ width: "33%" }} />
         </div>
       </div>
     );
