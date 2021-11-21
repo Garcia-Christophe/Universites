@@ -1,0 +1,10 @@
+.div-principal-selection-formation {
+  width: 33%;
+}
+
+.div-selection {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 25%;
+  margin-right: 25%;
+}
