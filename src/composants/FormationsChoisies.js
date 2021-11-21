@@ -9,7 +9,7 @@ export default class FormationsChoisies extends Component {
 
   render() {
     return (
-      <div>
+      <div className="div-principal-formations-choisies">
         <h2>Formations choisies</h2>
         <ul className="liste-selection-formations">
           {this.state.formations.map((formation) => {

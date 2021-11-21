@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../style/AffichageEffectifs.css";
 
 export default class AffichageEffectifs extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class AffichageEffectifs extends Component {
 
   render() {
     return (
-      <div>
+      <div className="div-principal-affichage-effectifs">
         <h2>Effectifs</h2>
         <p>Affichage du tableau ou du graphique...</p>
       </div>

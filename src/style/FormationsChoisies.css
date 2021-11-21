@@ -1,3 +1,7 @@
+.div-principal-formations-choisies {
+  width: 33%;
+}
+
 .liste-selection-formations {
   list-style-type: none;
 }
@@ -9,4 +13,5 @@ input[type="checkbox"] {
 .item-liste-selection-formations {
   display: flex;
   align-items: center;
+  overflow-wrap: break-word;
 }
