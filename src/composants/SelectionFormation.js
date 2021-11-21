@@ -25,9 +25,6 @@ export default class SelectionFormation extends Component {
   }
 
   componentDidMount() {
-    // on récupère toutes les données pouvant être utiles
-    // puis on affichera seulement celle qui corresponde au choix de l'utilisateur
-
     fetch("http://localhost:8080/ufr")
       .then((res) => res.json())
       .then(
@@ -50,22 +47,22 @@ export default class SelectionFormation extends Component {
         }
       );
 
-    fetch("http://localhost:8080/parcours")
+    fetch("http://localhost:8080/formation")
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState({ parcours: result, parcoursPossibles: result });
+          this.setState({ formations: result });
         },
         (error) => {
           console.log("Erreur : " + error);
         }
       );
 
-    fetch("http://localhost:8080/formation")
+    fetch("http://localhost:8080/parcours")
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState({ formations: result });
+          this.setState({ parcours: result, parcoursPossibles: result });
         },
         (error) => {
           console.log("Erreur : " + error);
@@ -79,9 +76,11 @@ export default class SelectionFormation extends Component {
     } else if (this.state.idFormationChoisie === -1) {
       alert("Veuillez choisir la formation.");
     } else {
-      //this.props.ajouterFormation();
+      this.props.callback(
+        this.state.idParcoursChoisi,
+        this.state.idFormationChoisie
+      );
     }
-    // reussir à renvoyer la formation à FormationChoisies (passer par Effectif ? je sais pas)
   }
 
   choisirUfr(e, id) {
@@ -265,7 +264,7 @@ export default class SelectionFormation extends Component {
         </div>
         <br />
 
-        <Button variant="warning" onClick={() => this.props.ajouterFormation()}>
+        <Button variant="warning" onClick={this.ajouterFormation}>
           Ajouter une formation
         </Button>
       </div>

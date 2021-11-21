@@ -4,7 +4,9 @@ import "../style/FormationsChoisies.css";
 export default class FormationsChoisies extends Component {
   constructor(props) {
     super(props);
-    this.state = { formations: props.formations };
+    this.state = {
+      formations: this.props.formationsChoisies,
+    };
   }
 
   render() {
@@ -12,7 +14,7 @@ export default class FormationsChoisies extends Component {
       <div className="div-principal-formations-choisies">
         <h2>Formations choisies</h2>
         <ul className="liste-selection-formations">
-          {this.state.formations.map((formation) => {
+          {this.props.formationsChoisies.map((formation) => {
             return (
               <li className="item-liste-selection-formations">
                 <input

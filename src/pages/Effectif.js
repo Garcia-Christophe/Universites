@@ -8,27 +8,87 @@ export default class Effectif extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      affichage: true,
+      formations: [],
+      parcours: [],
+      idsParcoursFormations: [],
       formationsChoisies: [],
     };
-
-    this.ajouterFormation = this.ajouterFormation.bind(this);
   }
 
-  ajouterFormation(idParcours, idFormation) {
-    console.log("test");
+  componentDidMount() {
+    fetch("http://localhost:8080/parcours")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({ parcours: result });
+        },
+        (error) => {
+          console.log("Erreur : " + error);
+        }
+      );
+
+    fetch("http://localhost:8080/formation")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({ formations: result });
+        },
+        (error) => {
+          console.log("Erreur : " + error);
+        }
+      );
   }
+
+  callbackAjouterFormation = (idParcours, idFormation) => {
+    let listeIds = this.state.idsParcoursFormations;
+    let formationDejaExistante = false;
+    for (let i = 0; !formationDejaExistante && i < listeIds.length; i++) {
+      if (
+        (listeIds[i].idParcours === idParcours && listeIds[i].idFormation) ===
+        idFormation
+      ) {
+        formationDejaExistante = true;
+      }
+    }
+    if (!formationDejaExistante) {
+      listeIds.push({
+        idParcours: idParcours,
+        idFormation: idFormation,
+      });
+    }
+
+    let listeFormationsChoisies = [];
+    for (let i = 0; i < this.state.formations.length; i++) {
+      for (let j = 0; j < listeIds.length; j++) {
+        if (this.state.formations[i].idFormation === listeIds[j].idFormation) {
+          listeFormationsChoisies.push({
+            cochee: false,
+            idFormation: this.state.formations[i].idFormation,
+            type: this.state.formations[i].type,
+            niveau: this.state.formations[i].niveau,
+            nomParcours: this.state.parcours.find(
+              (parcours) => parcours.idParcours === listeIds[j].idParcours
+            ).nomParcours,
+          });
+        }
+      }
+    }
+
+    this.setState({
+      idsParcoursFormations: listeIds,
+      formationsChoisies: listeFormationsChoisies,
+    });
+  };
 
   render() {
     return (
       <div className="principal-effectif">
         <div className="panels-formation">
           <FormationsChoisies
-            formations={this.state.formationsChoisies}
-            ajouterFormation={this.ajouterFormation}
+            formationsChoisies={this.state.formationsChoisies}
           />
           <AffichageEffectifs />
-          <SelectionFormation />
+          <SelectionFormation callback={this.callbackAjouterFormation} />
         </div>
       </div>
     );
