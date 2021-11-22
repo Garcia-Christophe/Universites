@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { Image } from "react-bootstrap";
 import "../style/FormationsChoisies.css";
+import retirer from "../data/retirer.png";
 
 export default class FormationsChoisies extends Component {
   constructor(props) {
@@ -17,6 +19,17 @@ export default class FormationsChoisies extends Component {
           {this.props.formationsChoisies.map((formation) => {
             return (
               <li className="item-liste-selection-formations">
+                <button
+                  className="button-formations-choisies"
+                  onClick={() =>
+                    this.props.retirerFormation(formation.idFormation)
+                  }
+                >
+                  <Image
+                    src={retirer}
+                    style={{ height: "20px", width: "20px" }}
+                  />
+                </button>
                 <input
                   className="input-liste-selection-formations"
                   checked={formation.cochee}
@@ -28,7 +41,7 @@ export default class FormationsChoisies extends Component {
                   }
                   type="checkbox"
                 />
-                <p>
+                <p className="text-formations-choisies">
                   {formation.type} {formation.niveau} -{" "}
                   {formation.nomParcours.split("(")[1].split(")")[0]}
                 </p>

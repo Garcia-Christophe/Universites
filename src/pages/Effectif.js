@@ -44,8 +44,6 @@ export default class Effectif extends Component {
       .then(
         (result) => {
           this.setState({ effectifs: result });
-          console.log("test");
-          console.log(result);
         },
         (error) => {
           console.log("Erreur : " + error);
@@ -98,7 +96,21 @@ export default class Effectif extends Component {
     var listeAJour = this.state.formationsChoisies;
     listeAJour.find((formation) => formation.idFormation === id).cochee =
       cochee;
-    this.setState({ listeFormationsChoisies: listeAJour });
+    this.setState({ formationsChoisies: listeAJour });
+  };
+
+  retirerFormation = (id) => {
+    var listeFormationsAJour = this.state.formationsChoisies.filter(
+      (formation) => formation.idFormation !== id
+    );
+    var listeIds = this.state.idsParcoursFormations.filter(
+      (element) => element.idFormation !== id
+    );
+
+    this.setState({
+      formationsChoisies: listeFormationsAJour,
+      idsParcoursFormations: listeIds,
+    });
   };
 
   render() {
@@ -108,6 +120,7 @@ export default class Effectif extends Component {
           <FormationsChoisies
             formationsChoisies={this.state.formationsChoisies}
             cocherFormation={this.cocherFormation}
+            retirerFormation={this.retirerFormation}
           />
           <AffichageEffectifs
             formationsChoisies={this.state.formationsChoisies}
