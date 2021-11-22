@@ -18,18 +18,19 @@ export default class FormationsChoisies extends Component {
             return (
               <li className="item-liste-selection-formations">
                 <input
+                  className="input-liste-selection-formations"
                   checked={formation.cochee}
-                  onChange={() => {
-                    var listeAJour = this.state.formations;
-                    listeAJour.find(
-                      (f) => f.idFormation === formation.idFormation
-                    ).cochee = !formation.cochee;
-                    this.setState({ formations: listeAJour });
-                  }}
+                  onChange={() =>
+                    this.props.cocherFormation(
+                      formation.idFormation,
+                      !formation.cochee
+                    )
+                  }
                   type="checkbox"
                 />
                 <p>
-                  {formation.type} {formation.niveau} - {formation.nomParcours}
+                  {formation.type} {formation.niveau} -{" "}
+                  {formation.nomParcours.split("(")[1].split(")")[0]}
                 </p>
               </li>
             );

@@ -8,3 +8,7 @@
   margin-left: 25%;
   margin-right: 25%;
 }
+
+#dropdown-basic {
+  overflow-wrap: break-word;
+}

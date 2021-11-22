@@ -202,10 +202,13 @@ export default class SelectionFormation extends Component {
               <Dropdown.Toggle variant="outline-warning" id="dropdown-basic">
                 {this.state.idParcoursChoisi === -1
                   ? "Parcours"
-                  : this.state.parcours.find(
-                      (parcours) =>
-                        parcours.idParcours === this.state.idParcoursChoisi
-                    ).nomParcours}
+                  : this.state.parcours
+                      .find(
+                        (parcours) =>
+                          parcours.idParcours === this.state.idParcoursChoisi
+                      )
+                      .nomParcours.split("(")[1]
+                      .split(")")[0]}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
@@ -234,6 +237,7 @@ export default class SelectionFormation extends Component {
                       (formation) =>
                         formation.idFormation === this.state.idFormationChoisie
                     ).type +
+                    " " +
                     this.state.formations.find(
                       (formation) =>
                         formation.idFormation === this.state.idFormationChoisie

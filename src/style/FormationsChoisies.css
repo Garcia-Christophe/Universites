@@ -12,6 +12,10 @@ input[type="checkbox"] {
 
 .item-liste-selection-formations {
   display: flex;
-  align-items: center;
   overflow-wrap: break-word;
+}
+
+.input-liste-selection-formations {
+  margin-right: 5px;
+  margin-top: 10px;
 }

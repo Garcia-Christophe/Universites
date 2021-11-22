@@ -80,14 +80,24 @@ export default class Effectif extends Component {
     });
   };
 
+  cocherFormation = (id, cochee) => {
+    var listeAJour = this.state.formationsChoisies;
+    listeAJour.find((formation) => formation.idFormation === id).cochee =
+      cochee;
+    this.setState({ listeFormationsChoisies: listeAJour });
+  };
+
   render() {
     return (
       <div className="principal-effectif">
         <div className="panels-formation">
           <FormationsChoisies
             formationsChoisies={this.state.formationsChoisies}
+            cocherFormation={this.cocherFormation}
           />
-          <AffichageEffectifs />
+          <AffichageEffectifs
+            formationsChoisies={this.state.formationsChoisies}
+          />
           <SelectionFormation callback={this.callbackAjouterFormation} />
         </div>
       </div>
