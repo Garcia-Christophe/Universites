@@ -1,5 +1,10 @@
 .div-principal-formations-choisies {
-  width: 33%;
+  width: 25%;
+}
+
+.titre-formations-choisies {
+  display: flex;
+  justify-content: center;
 }
 
 .liste-selection-formations {

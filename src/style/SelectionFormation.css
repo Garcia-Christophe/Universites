@@ -1,5 +1,11 @@
 .div-principal-selection-formation {
-  width: 33%;
+  width: 25;
+}
+
+.titre-selection-formations,
+.button-ajouter-formation {
+  display: flex;
+  justify-content: center;
 }
 
 .div-selection {

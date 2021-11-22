@@ -14,7 +14,11 @@ export default class FormationsChoisies extends Component {
   render() {
     return (
       <div className="div-principal-formations-choisies">
-        <h2>Formations choisies</h2>
+        <div className="titre-formations-choisies">
+          <h2>Formations choisies</h2>
+        </div>
+        <br />
+
         <ul className="liste-selection-formations">
           {this.props.formationsChoisies.map((formation) => {
             return (

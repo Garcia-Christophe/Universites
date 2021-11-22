@@ -1,4 +1,27 @@
 .div-principal-affichage-effectifs {
-  width: 33%;
+  width: 50%;
   max-height: 100%;
+}
+
+.titre-effectifs {
+  display: flex;
+  justify-content: center;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.div-dates {
+  display: block;
+}
+
+.graphique {
+  display: flex;
+  justify-content: center;
+}
+
+#dropdown-basic {
+  overflow-wrap: break-word;
 }

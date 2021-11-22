@@ -129,7 +129,9 @@ export default class SelectionFormation extends Component {
   render() {
     return (
       <div className="div-principal-selection-formation">
-        <h2>Sélection formations</h2>
+        <div className="titre-selection-formations">
+          <h2>Sélection formations</h2>
+        </div>
         <br />
 
         <div className="div-dropdowns">
@@ -268,9 +270,11 @@ export default class SelectionFormation extends Component {
         </div>
         <br />
 
-        <Button variant="warning" onClick={this.ajouterFormation}>
-          Ajouter une formation
-        </Button>
+        <div className="button-ajouter-formation">
+          <Button variant="warning" onClick={this.ajouterFormation}>
+            Ajouter une formation
+          </Button>
+        </div>
       </div>
     );
   }
