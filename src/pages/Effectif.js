@@ -10,6 +10,7 @@ export default class Effectif extends Component {
     this.state = {
       formations: [],
       parcours: [],
+      effectifs: [],
       idsParcoursFormations: [],
       formationsChoisies: [],
     };
@@ -32,6 +33,19 @@ export default class Effectif extends Component {
       .then(
         (result) => {
           this.setState({ formations: result });
+        },
+        (error) => {
+          console.log("Erreur : " + error);
+        }
+      );
+
+    fetch("http://localhost:8080/effectif")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({ effectifs: result });
+          console.log("test");
+          console.log(result);
         },
         (error) => {
           console.log("Erreur : " + error);

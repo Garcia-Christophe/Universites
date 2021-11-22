@@ -68,6 +68,7 @@ export default class AffichageEffectifs extends Component {
       <div className="div-principal-affichage-effectifs">
         <h2>Effectifs</h2>
         <MDBContainer>
+          {/* utiliser this.props.data... directement */}
           <Bar data={this.state.dataBar} options={this.state.barChartOptions} />
         </MDBContainer>
       </div>
