@@ -11,8 +11,10 @@ export default class Effectif extends Component {
       formations: [],
       parcours: [],
       effectifs: [],
+      demographie: [],
       idsParcoursFormations: [],
       formationsChoisies: [],
+      nbMajAFaire: 0,
     };
   }
 
@@ -44,6 +46,17 @@ export default class Effectif extends Component {
       .then(
         (result) => {
           this.setState({ effectifs: result });
+        },
+        (error) => {
+          console.log("Erreur : " + error);
+        }
+      );
+
+    fetch("http://localhost:8080/demographie")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({ demographie: result });
         },
         (error) => {
           console.log("Erreur : " + error);
@@ -96,7 +109,10 @@ export default class Effectif extends Component {
     var listeAJour = this.state.formationsChoisies;
     listeAJour.find((formation) => formation.idFormation === id).cochee =
       cochee;
-    this.setState({ formationsChoisies: listeAJour });
+    this.setState({
+      formationsChoisies: listeAJour,
+      nbMajAFaire: this.state.nbMajAFaire + 1,
+    });
   };
 
   retirerFormation = (id) => {
@@ -122,9 +138,16 @@ export default class Effectif extends Component {
             cocherFormation={this.cocherFormation}
             retirerFormation={this.retirerFormation}
           />
-          <AffichageEffectifs
-            formationsChoisies={this.state.formationsChoisies}
-          />
+          {this.state.effectifs.length > 0 &&
+            this.state.demographie.length > 0 && (
+              <AffichageEffectifs
+                effectifs={this.state.effectifs}
+                demographie={this.state.demographie}
+                formationsChoisies={this.state.formationsChoisies}
+                nbMajAFaire={this.state.nbMajAFaire}
+              />
+            )}
+          )
           <SelectionFormation callback={this.callbackAjouterFormation} />
         </div>
       </div>
