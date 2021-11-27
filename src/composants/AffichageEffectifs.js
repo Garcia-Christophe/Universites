@@ -32,7 +32,7 @@ export default class AffichageEffectifs extends Component {
       dateDebut: dates[0],
       dateFin: dates[dates.length - 1],
       age: ages[0],
-      typesGraphique: ["En barres", "Multi-lignes"],
+      typesGraphique: ["En barres", "En lignes", "Multi-lignes"],
       typeGraphiqueChoisi: "En barres",
       backgroundColor: [
         "rgba(255, 134, 159, 0.4)",
@@ -71,33 +71,36 @@ export default class AffichageEffectifs extends Component {
             backgroundColor: null,
             borderWidth: 2,
             borderColor: null,
+            yAxisID: "yLeft",
           },
         ],
       },
       barChartOptions: {
         responsive: true,
         maintainAspectRatio: true,
+        plugins: {
+          title: {
+            display: false,
+            text: "Graphique des effectifs - Diagramme en barres",
+          },
+        },
         scales: {
-          xAxes: [
-            {
-              barPercentage: 1,
-              gridLines: {
-                display: true,
-                color: "rgba(0, 0, 0, 0.1)",
-              },
+          yLeft: {
+            type: "linear",
+            position: "left",
+            display: true,
+            ticks: {
+              beginAtZero: true,
             },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                display: true,
-                color: "rgba(0, 0, 0, 0.1)",
-              },
-              ticks: {
-                beginAtZero: true,
-              },
+          },
+          yRight: {
+            type: "linear",
+            position: "right",
+            display: false,
+            ticks: {
+              beginAtZero: true,
             },
-          ],
+          },
         },
       },
     };
@@ -122,8 +125,16 @@ export default class AffichageEffectifs extends Component {
   }
 
   changerTypeGraphique(type) {
+    let newOptions = this.state.barChartOptions;
+    if (type === this.state.typesGraphique[2]) {
+      newOptions.scales.yRight.display = true;
+    } else {
+      newOptions.scales.yRight.display = false;
+    }
+
     this.setState({
       typeGraphiqueChoisi: type,
+      barChartOptions: newOptions,
       nbMajFaites: this.state.nbMajFaites - 1,
     });
   }
@@ -173,6 +184,7 @@ export default class AffichageEffectifs extends Component {
             backgroundColor: this.state.backgroundColor[datasets.length],
             borderWidth: 2,
             borderColor: this.state.borderColor[datasets.length],
+            yAxisID: "yLeft",
           });
         }
       }
@@ -323,20 +335,23 @@ export default class AffichageEffectifs extends Component {
         </div>
         <br />
 
-        <MDBContainer className="graphique">
-          {this.state.typeGraphiqueChoisi === this.state.typesGraphique[0] && (
+        {this.state.typeGraphiqueChoisi === this.state.typesGraphique[0] && (
+          <MDBContainer className="graphique">
             <Bar
               data={this.state.dataBar}
               options={this.state.barChartOptions}
             />
-          )}
-          {this.state.typeGraphiqueChoisi === this.state.typesGraphique[1] && (
+          </MDBContainer>
+        )}
+        {(this.state.typeGraphiqueChoisi === this.state.typesGraphique[1] ||
+          this.state.typeGraphiqueChoisi === this.state.typesGraphique[2]) && (
+          <MDBContainer className="graphique">
             <Line
               data={this.state.dataBar}
               options={this.state.barChartOptions}
             />
-          )}
-        </MDBContainer>
+          </MDBContainer>
+        )}
       </div>
     );
   }
