@@ -46,8 +46,7 @@ export default class FormationsChoisies extends Component {
                   type="checkbox"
                 />
                 <p className="text-formations-choisies">
-                  {formation.type} {formation.niveau} -{" "}
-                  {formation.nomParcours.split("(")[1].split(")")[0]}
+                  {formation.type} {formation.niveau} - {formation.nomParcours}
                 </p>
               </li>
             );

@@ -126,6 +126,7 @@ export default class Effectif extends Component {
     this.setState({
       formationsChoisies: listeFormationsAJour,
       idsParcoursFormations: listeIds,
+      nbMajAFaire: this.state.nbMajAFaire + 1,
     });
   };
 

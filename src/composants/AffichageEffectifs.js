@@ -9,7 +9,7 @@ export default class AffichageEffectifs extends Component {
     super(props);
     let dates = [2016, 2017, 2018, 2019, 2020, 2021];
     let ages = [];
-    //ages.push(-1);
+    ages.push(-1);
     let existe = false;
     for (let i = 0; i < this.props.demographie.length; i++) {
       for (let j = 0; j < ages.length; j++) {
@@ -128,19 +128,55 @@ export default class AffichageEffectifs extends Component {
     });
   }
 
-  render() {
-    if (this.props.nbMajAFaire !== this.state.nbMajFaites) {
-      let datasets = [];
-      let demographiesAvecBonAge = [];
-      for (let i = 0; i < this.props.demographie.length; i++) {
-        if (
-          //this.state.age === -1 ||
-          this.props.demographie[i].ageDemographie === this.state.age
-        ) {
-          demographiesAvecBonAge.push(this.props.demographie[i]);
+  miseAJourEffectifs() {
+    let datasets = [];
+    let demographiesAvecBonAge = [];
+    let data = [];
+
+    for (let i = 0; i < this.props.demographie.length; i++) {
+      if (
+        this.state.age === -1 ||
+        this.props.demographie[i].ageDemographie === this.state.age
+      ) {
+        demographiesAvecBonAge.push(this.props.demographie[i]);
+      }
+    }
+
+    if (this.state.age === -1) {
+      let effectif = 0;
+      for (let i = 0; i < this.props.formationsChoisies.length; i++) {
+        if (this.props.formationsChoisies[i].cochee) {
+          data = [];
+          for (let j = this.state.dateDebut; j <= this.state.dateFin; j++) {
+            effectif = 0;
+            for (let k = 0; k < this.state.effectifs.length; k++) {
+              if (
+                this.state.effectifs[k].Formation_idFormation ===
+                  this.props.formationsChoisies[i].idFormation &&
+                this.state.effectifs[k].anneeRef === j
+              ) {
+                effectif += this.state.effectifs[k].effectif;
+              }
+            }
+            data.push(effectif);
+          }
+          datasets.push({
+            label:
+              this.props.formationsChoisies[i].type +
+              " " +
+              this.props.formationsChoisies[i].niveau +
+              " - " +
+              this.props.formationsChoisies[i].nomParcours
+                .split("(")[1]
+                .split(")")[0],
+            data: data,
+            backgroundColor: this.state.backgroundColor[datasets.length],
+            borderWidth: 2,
+            borderColor: this.state.borderColor[datasets.length],
+          });
         }
       }
-
+    } else {
       for (let i = 0; i < this.props.formationsChoisies.length; i++) {
         if (this.props.formationsChoisies[i].cochee) {
           let data = [];
@@ -160,8 +196,6 @@ export default class AffichageEffectifs extends Component {
             }
           }
 
-          console.log(datasets);
-
           datasets.push({
             label:
               this.props.formationsChoisies[i].type +
@@ -178,13 +212,20 @@ export default class AffichageEffectifs extends Component {
           });
         }
       }
-      let dataBar = this.state.dataBar;
-      dataBar.datasets = datasets;
+    }
 
-      this.setState({
-        nbMajFaites: this.state.nbMajFaites + 1,
-        dataBar: dataBar,
-      });
+    let dataBar = this.state.dataBar;
+    dataBar.datasets = datasets;
+
+    this.setState({
+      nbMajFaites: this.state.nbMajFaites + 1,
+      dataBar: dataBar,
+    });
+  }
+
+  render() {
+    if (this.props.nbMajAFaire !== this.state.nbMajFaites) {
+      this.miseAJourEffectifs();
     }
     return (
       <div className="div-principal-affichage-effectifs">
