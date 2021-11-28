@@ -47,6 +47,14 @@ export default class AffichageEffectifs extends Component {
         "rgba(126, 38, 137, 0.4)",
         "rgba(137, 38, 66, 0.4)",
         "rgba(137, 75, 38, 0.4)",
+        "rgba(0, 0, 0, 0.4)",
+        "rgba(255, 255, 255, 0.4)",
+        "rgba(137, 38, 38, 0.4)",
+        "rgba(137, 38, 111, 0.4)",
+        "rgba(38, 43, 137, 0.4)",
+        "rgba(137, 137, 137, 0.4)",
+        "rgba(107, 137, 38, 0.4)",
+        "rgba(237, 242, 59, 0.4)",
       ],
       borderColor: [
         "rgba(255, 134, 159, 1)",
@@ -61,6 +69,14 @@ export default class AffichageEffectifs extends Component {
         "rgba(126, 38, 137, 1)",
         "rgba(137, 38, 66, 1)",
         "rgba(137, 75, 38, 1)",
+        "rgba(0, 0, 0, 1)",
+        "rgba(255, 255, 255, 1)",
+        "rgba(137, 38, 38, 1)",
+        "rgba(137, 38, 111, 1)",
+        "rgba(38, 43, 137, 1)",
+        "rgba(137, 137, 137, 1)",
+        "rgba(107, 137, 38, 1)",
+        "rgba(237, 242, 59, 1)",
       ],
       dataBar: {
         labels: dates,
@@ -175,13 +191,35 @@ export default class AffichageEffectifs extends Component {
             for (let k = 0; k < demographiesAvecBonAge.length; k++) {
               for (let l = 0; l < this.state.effectifs.length; l++) {
                 if (
+                  data2.length <= j - this.state.dateDebut &&
                   this.state.effectifs[l].Demographie_idDemographie ===
                     demographiesAvecBonAge[k].idDemographie &&
-                  demographiesAvecBonAge[k].anneeDemographie === k
+                  demographiesAvecBonAge[k].anneeDemographie === j &&
+                  ((this.props.formationsChoisies[i].niveau === "1" &&
+                    this.props.formationsChoisies[i].type === "Licence" &&
+                    demographiesAvecBonAge[k].ageDemographie === 18) ||
+                    (this.props.formationsChoisies[i].niveau === "2" &&
+                      this.props.formationsChoisies[i].type === "Licence" &&
+                      demographiesAvecBonAge[k].ageDemographie === 19) ||
+                    (this.props.formationsChoisies[i].niveau === "3" &&
+                      this.props.formationsChoisies[i].type === "Licence" &&
+                      demographiesAvecBonAge[k].ageDemographie === 20) ||
+                    (this.props.formationsChoisies[i].niveau === "1" &&
+                      this.props.formationsChoisies[i].type === "Master" &&
+                      demographiesAvecBonAge[k].ageDemographie === 21) ||
+                    (this.props.formationsChoisies[i].niveau === "2" &&
+                      this.props.formationsChoisies[i].type === "Master" &&
+                      demographiesAvecBonAge[k].ageDemographie === 22))
                 ) {
-                  // changer la condition : demographiesAvecBonAge[k].ageDemographie === 20 ans si L3, 21 ans si M1, etc...
-                  // soit mettre en brut (L3 ? 20 : (M1 ? 21 : 22))
-                  // soit faire propre (voir la liaison effectifs.Demographie_idDemographie/Demographie.idDemographie)
+                  console.log(
+                    this.state.effectifs[l].Demographie_idDemographie +
+                      "/" +
+                      demographiesAvecBonAge[k].idDemographie,
+                    demographiesAvecBonAge[k].anneeDemographie + "/" + j,
+                    this.props.formationsChoisies[i].niveau,
+                    this.props.formationsChoisies[i].type,
+                    demographiesAvecBonAge[k].ageDemographie
+                  );
                   data2.push(demographiesAvecBonAge[k].nbPersonnes);
                 }
               }
