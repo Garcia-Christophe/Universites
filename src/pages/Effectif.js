@@ -69,8 +69,8 @@ export default class Effectif extends Component {
     let formationDejaExistante = false;
     for (let i = 0; !formationDejaExistante && i < listeIds.length; i++) {
       if (
-        (listeIds[i].idParcours === idParcours && listeIds[i].idFormation) ===
-        idFormation
+        listeIds[i].idParcours === idParcours &&
+        listeIds[i].idFormation === idFormation
       ) {
         formationDejaExistante = true;
       }
@@ -80,29 +80,34 @@ export default class Effectif extends Component {
         idParcours: idParcours,
         idFormation: idFormation,
       });
-    }
 
-    let listeFormationsChoisies = [];
-    for (let i = 0; i < this.state.formations.length; i++) {
-      for (let j = 0; j < listeIds.length; j++) {
-        if (this.state.formations[i].idFormation === listeIds[j].idFormation) {
-          listeFormationsChoisies.push({
-            cochee: false,
-            idFormation: this.state.formations[i].idFormation,
-            type: this.state.formations[i].type,
-            niveau: this.state.formations[i].niveau,
-            nomParcours: this.state.parcours.find(
-              (parcours) => parcours.idParcours === listeIds[j].idParcours
-            ).nomParcours,
-          });
+      let listeFormationsChoisies = this.state.formationsChoisies;
+      let nouvelleFormation = null;
+      for (let i = 0; i < this.state.formations.length; i++) {
+        for (let j = 0; j < listeIds.length; j++) {
+          if (
+            this.state.formations[i].idFormation === idFormation &&
+            this.state.formations[i].Parcours_idParcours === idParcours
+          ) {
+            nouvelleFormation = {
+              cochee: false,
+              idFormation: this.state.formations[i].idFormation,
+              type: this.state.formations[i].type,
+              niveau: this.state.formations[i].niveau,
+              nomParcours: this.state.parcours.find(
+                (parcours) => parcours.idParcours === listeIds[j].idParcours
+              ).nomParcours,
+            };
+          }
         }
       }
-    }
+      listeFormationsChoisies.push(nouvelleFormation);
 
-    this.setState({
-      idsParcoursFormations: listeIds,
-      formationsChoisies: listeFormationsChoisies,
-    });
+      this.setState({
+        idsParcoursFormations: listeIds,
+        formationsChoisies: listeFormationsChoisies,
+      });
+    }
   };
 
   cocherFormation = (id, cochee) => {

@@ -89,6 +89,10 @@ export default class AffichageEffectifs extends Component {
             type: "linear",
             position: "left",
             display: true,
+            title: {
+              display: true,
+              text: "Effectif formations",
+            },
             ticks: {
               beginAtZero: true,
             },
@@ -97,8 +101,15 @@ export default class AffichageEffectifs extends Component {
             type: "linear",
             position: "right",
             display: false,
+            title: {
+              display: true,
+              text: "Effectif démographies",
+            },
             ticks: {
               beginAtZero: true,
+            },
+            grid: {
+              drawOnChartArea: false,
             },
           },
         },
@@ -143,6 +154,7 @@ export default class AffichageEffectifs extends Component {
     let datasets = [];
     let demographiesAvecBonAge = [];
     let data = [];
+    let data2 = [];
 
     for (let i = 0; i < this.props.demographie.length; i++) {
       if (
@@ -158,7 +170,23 @@ export default class AffichageEffectifs extends Component {
       for (let i = 0; i < this.props.formationsChoisies.length; i++) {
         if (this.props.formationsChoisies[i].cochee) {
           data = [];
+          data2 = [];
           for (let j = this.state.dateDebut; j <= this.state.dateFin; j++) {
+            for (let k = 0; k < demographiesAvecBonAge.length; k++) {
+              for (let l = 0; l < this.state.effectifs.length; l++) {
+                if (
+                  this.state.effectifs[l].Demographie_idDemographie ===
+                    demographiesAvecBonAge[k].idDemographie &&
+                  demographiesAvecBonAge[k].anneeDemographie === k
+                ) {
+                  // changer la condition : demographiesAvecBonAge[k].ageDemographie === 20 ans si L3, 21 ans si M1, etc...
+                  // soit mettre en brut (L3 ? 20 : (M1 ? 21 : 22))
+                  // soit faire propre (voir la liaison effectifs.Demographie_idDemographie/Demographie.idDemographie)
+                  data2.push(demographiesAvecBonAge[k].nbPersonnes);
+                }
+              }
+            }
+
             effectif = 0;
             for (let k = 0; k < this.state.effectifs.length; k++) {
               if (
@@ -186,12 +214,34 @@ export default class AffichageEffectifs extends Component {
             borderColor: this.state.borderColor[datasets.length],
             yAxisID: "yLeft",
           });
+
+          if (this.state.typeGraphiqueChoisi === this.state.typesGraphique[2]) {
+            datasets.push({
+              label:
+                this.props.formationsChoisies[i].type +
+                " " +
+                this.props.formationsChoisies[i].niveau +
+                " - " +
+                this.props.formationsChoisies[i].nomParcours
+                  .split("(")[1]
+                  .split(")")[0] +
+                " (2)",
+              data: data2,
+              backgroundColor: this.state.backgroundColor[datasets.length],
+              borderWidth: 2,
+              borderColor: this.state.borderColor[datasets.length],
+              yAxisID: "yRight",
+            });
+          }
         }
       }
     } else {
+      let ancienneDate = -1;
+      let dateCourante = this.state.dateDebut;
       for (let i = 0; i < this.props.formationsChoisies.length; i++) {
         if (this.props.formationsChoisies[i].cochee) {
-          let data = [];
+          data = [];
+          data2 = [];
           for (let j = 0; j < this.state.effectifs.length; j++) {
             if (
               this.state.effectifs[j].Formation_idFormation ===
@@ -204,6 +254,15 @@ export default class AffichageEffectifs extends Component {
                 ) {
                   data.push(this.state.effectifs[j].effectif);
                 }
+
+                if (
+                  dateCourante !== ancienneDate &&
+                  demographiesAvecBonAge[k].ageDemographie === this.state.age
+                ) {
+                  ancienneDate = dateCourante;
+                  data2.push(demographiesAvecBonAge[k].nbPersonnes);
+                }
+                dateCourante++;
               }
             }
           }
@@ -221,7 +280,27 @@ export default class AffichageEffectifs extends Component {
             backgroundColor: this.state.backgroundColor[datasets.length],
             borderWidth: 2,
             borderColor: this.state.borderColor[datasets.length],
+            yAxisID: "yLeft",
           });
+
+          if (this.state.typeGraphiqueChoisi === this.state.typesGraphique[2]) {
+            datasets.push({
+              label:
+                this.props.formationsChoisies[i].type +
+                " " +
+                this.props.formationsChoisies[i].niveau +
+                " - " +
+                this.props.formationsChoisies[i].nomParcours
+                  .split("(")[1]
+                  .split(")")[0] +
+                " (2)",
+              data: data2,
+              backgroundColor: this.state.backgroundColor[datasets.length],
+              borderWidth: 2,
+              borderColor: this.state.borderColor[datasets.length],
+              yAxisID: "yRight",
+            });
+          }
         }
       }
     }
