@@ -211,15 +211,6 @@ export default class AffichageEffectifs extends Component {
                       this.props.formationsChoisies[i].type === "Master" &&
                       demographiesAvecBonAge[k].ageDemographie === 22))
                 ) {
-                  console.log(
-                    this.state.effectifs[l].Demographie_idDemographie +
-                      "/" +
-                      demographiesAvecBonAge[k].idDemographie,
-                    demographiesAvecBonAge[k].anneeDemographie + "/" + j,
-                    this.props.formationsChoisies[i].niveau,
-                    this.props.formationsChoisies[i].type,
-                    demographiesAvecBonAge[k].ageDemographie
-                  );
                   data2.push(demographiesAvecBonAge[k].nbPersonnes);
                 }
               }
