@@ -3,7 +3,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Navigation from "./composants/Navigation";
 import Accueil from "./pages/Accueil";
 import Effectif from "./pages/Effectif";
-import Universite from "./pages/Universite";
+import Parcours from "./pages/Parcours";
 import Departement from "./pages/Departement";
 
 function App() {
@@ -18,11 +18,11 @@ function App() {
           <Route path="/effectifs">
             <Effectif />
           </Route>
-          <Route path="/universites">
-            <Universite />
-          </Route>
           <Route path="/departements">
             <Departement />
+          </Route>
+          <Route path="/parcours">
+            <Parcours />
           </Route>
         </Switch>
       </Router>

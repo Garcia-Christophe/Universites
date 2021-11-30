@@ -103,7 +103,6 @@ export default class Departement extends Component {
           UFR_idUFR: this.state.departementTmp.UFR_idUFR,
         }),
       };
-      console.log(requestOptions);
       fetch("http://localhost:8080/departement", requestOptions).then(
         this.getDepartements()
       );
@@ -121,10 +120,8 @@ export default class Departement extends Component {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     };
-    console.log(requestOptions);
     fetch("http://localhost:8080/departement/" + idDept, requestOptions).then(
       (res) => {
-        console.log("http://localhost:8080/departement/" + idDept);
         this.getDepartements();
       }
     );

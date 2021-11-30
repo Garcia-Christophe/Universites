@@ -34,19 +34,17 @@ export default class Navigation extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/effectifs">Effectifs</Nav.Link>
-              <Nav.Link href="/universites">Universités</Nav.Link>
               <Nav.Link href="/departements">Départements</Nav.Link>
+              <Nav.Link href="/parcours">Parcours</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.1">Sites</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">UFRs</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">
-                  Something
+                  Formations
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">
-                  Separated link
+                  Démographies
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

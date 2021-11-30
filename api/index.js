@@ -406,6 +406,12 @@ mariadb
         "DELETE FROM DEPARTEMENT WHERE idDepartement = '" + id + "';";
       requete(conn, res, query);
     });
+
+    app.delete("/ufr/:id", (req, res) => {
+      const id = parseInt(req.params.id);
+      const query = "DELETE FROM UFR WHERE idUFR = '" + id + "';";
+      requete(conn, res, query);
+    });
   })
   .catch((err) => {
     console.log(err);
