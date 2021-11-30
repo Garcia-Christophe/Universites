@@ -101,13 +101,19 @@ export default class AffichageEffectifs extends Component {
           },
         },
         scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Années",
+            },
+          },
           yLeft: {
             type: "linear",
             position: "left",
             display: true,
             title: {
               display: true,
-              text: "Effectif formations",
+              text: "Effectif des formations",
             },
             ticks: {
               beginAtZero: true,
@@ -119,7 +125,7 @@ export default class AffichageEffectifs extends Component {
             display: false,
             title: {
               display: true,
-              text: "Effectif démographies",
+              text: "Effectif des démographies",
             },
             ticks: {
               beginAtZero: true,

@@ -5,8 +5,9 @@ const cors = require("cors");
 require("dotenv").config();
 
 // Middleware
-// app.use(express.json());
+app.use(express.json());
 app.use(cors({ origin: "*" }));
+// app.use(express.urlencoded());
 
 // Écoute du serveur
 app.listen(8080, () => {
@@ -64,43 +65,43 @@ mariadb
 
     app.get("/ufr/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from UFR where id = " + id;
+      const query = "select * from UFR where idUFR = " + id;
       requete(conn, res, query);
     });
 
     app.get("/siteuniv/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from SITE_UNIV where id = " + id;
+      const query = "select * from SITE_UNIV where idSite = " + id;
       requete(conn, res, query);
     });
 
     app.get("/parcours/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from PARCOURS where id = " + id;
+      const query = "select * from PARCOURS where idParcours = " + id;
       requete(conn, res, query);
     });
 
     app.get("/formation/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from FORMATION where id = " + id;
+      const query = "select * from FORMATION where idFormation = " + id;
       requete(conn, res, query);
     });
 
     app.get("/effectif/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from EFFECTIF where id = " + id;
+      const query = "select * from EFFECTIF where idEffectif = " + id;
       requete(conn, res, query);
     });
 
     app.get("/departement/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from DEPARTEMENT where id = " + id;
+      const query = "select * from DEPARTEMENT where idDepartement = " + id;
       requete(conn, res, query);
     });
 
     app.get("/demographie/:id", (req, res) => {
       const id = parseInt(req.params.id);
-      const query = "select * from DEMOGRAPHIE where id = " + id;
+      const query = "select * from DEMOGRAPHIE where idDemographie = " + id;
       requete(conn, res, query);
     });
 
@@ -201,19 +202,19 @@ mariadb
       var query = "";
 
       let nomUFR =
-        req.body.nomUFR != undefined
+        req.body.nomUFR !== undefined
           ? " nomUFR = '" + req.body.nomUFR + "' "
           : "";
 
       let nomUFR_Court = "";
-      if (req.body.nomUFR_Court != undefined) {
-        if (nomUFR != "")
+      if (req.body.nomUFR_Court !== undefined) {
+        if (nomUFR !== "")
           nomUFR_Court = ", nomUFR_Court = '" + req.body.nomUFR_Court + "'";
         else nomUFR_Court = " nomUFR_Court = '" + req.body.nomUFR_Court + "'";
       }
       let idUFR = " WHERE idUFR = " + id + ";";
 
-      if (nomUFR != "" || nomUFR_Court != "") {
+      if (nomUFR !== "" || nomUFR_Court !== "") {
         query = "UPDATE UFR SET" + nomUFR + nomUFR_Court + idUFR;
       }
 
@@ -223,7 +224,7 @@ mariadb
     app.put("/siteuniv/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query =
-        req.body.nomSite != undefined
+        req.body.nomSite !== undefined
           ? "UPDATE SITE_UNIV SET nomSite = '" +
             req.body.nomSite +
             "' WHERE idSite = " +
@@ -236,7 +237,7 @@ mariadb
     app.put("/parcours/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query =
-        req.body.nomParcours != undefined
+        req.body.nomParcours !== undefined
           ? "UPDATE PARCOURS SET nomParcours = '" +
             req.body.nomParcours +
             "' WHERE idParcours = " +
@@ -251,17 +252,17 @@ mariadb
       var query = "";
 
       let type =
-        req.body.type != undefined ? " type = '" + req.body.type + "' " : "";
+        req.body.type !== undefined ? " type = '" + req.body.type + "' " : "";
 
       let niveau = "";
-      if (req.body.niveau != undefined) {
-        if (type != "") niveau = ", niveau = '" + req.body.niveau + "'";
+      if (req.body.niveau !== undefined) {
+        if (type !== "") niveau = ", niveau = '" + req.body.niveau + "'";
         else niveau = " niveau = '" + req.body.niveau + "'";
       }
 
       let Parcours_idParcours = "";
-      if (req.body.Parcours_idParcours != undefined) {
-        if (type != "" && niveau != "")
+      if (req.body.Parcours_idParcours !== undefined) {
+        if (type !== "" && niveau !== "")
           Parcours_idParcours =
             ", Parcours_idParcours = '" + req.body.Parcours_idParcours + "'";
         else
@@ -270,8 +271,8 @@ mariadb
       }
 
       let Departement_idDepartement = "";
-      if (req.body.Departement_idDepartement != undefined) {
-        if (type != "" && niveau != "" && Parcours_idParcours != "")
+      if (req.body.Departement_idDepartement !== undefined) {
+        if (type !== "" && niveau !== "" && Parcours_idParcours !== "")
           Departement_idDepartement =
             ", Departement_idDepartement = '" +
             req.body.Departement_idDepartement +
@@ -285,10 +286,10 @@ mariadb
 
       let idFormation = " WHERE idFormation = " + id + ";";
       if (
-        type != "" ||
-        niveau != "" ||
-        Parcours_idParcours != "" ||
-        Departement_idDepartement != ""
+        type !== "" ||
+        niveau !== "" ||
+        Parcours_idParcours !== "" ||
+        Departement_idDepartement !== ""
       ) {
         query =
           "UPDATE FORMATION SET" +
@@ -308,13 +309,13 @@ mariadb
       var query = "";
 
       let effectif =
-        req.body.effectif != undefined
+        req.body.effectif !== undefined
           ? " effectif = '" + req.body.effectif + "'"
           : "";
 
       let idDemographie = "";
-      if (req.body.Demographie_idDemographie != undefined) {
-        if (effectif != "")
+      if (req.body.Demographie_idDemographie !== undefined) {
+        if (effectif !== "")
           idDemographie =
             ", Demographie_idDemographie = '" +
             req.body.Demographie_idDemographie +
@@ -332,7 +333,7 @@ mariadb
         " AND anneeRef = '" +
         anneeRef +
         "';";
-      if (effectif != "" || idDemographie != "") {
+      if (effectif !== "" || idDemographie !== "") {
         query = "UPDATE EFFECTIF SET" + effectif + idDemographie + idEffectif;
       }
 
@@ -344,13 +345,13 @@ mariadb
       var query = "";
 
       let nomDepartement =
-        req.body.nomDepartement != undefined
+        req.body.nomDepartement !== undefined
           ? " nomDepartement = '" + req.body.nomDepartement + "'"
           : "";
 
       let nomDepartement_Court = "";
-      if (req.body.nomDepartement_Court != undefined) {
-        if (nomDepartement != "")
+      if (req.body.nomDepartement_Court !== undefined) {
+        if (nomDepartement !== "")
           nomDepartement_Court =
             ", nomDepartement_Court = '" + req.body.nomDepartement_Court + "'";
         else
@@ -359,14 +360,18 @@ mariadb
       }
 
       let idUFR = "";
-      if (req.body.idUFR != undefined) {
-        if (nomDepartement != "" || nomDepartement_Court != "")
+      if (req.body.idUFR !== undefined) {
+        if (nomDepartement !== "" || nomDepartement_Court !== "")
           idUFR = ", UFR_idUFR = '" + req.body.UFR_idUFR + "'";
         else idUFR = " UFR_idUFR = '" + req.body.UFR_idUFR + "'";
       }
 
-      let idEffectif = " WHERE idDepartement = " + id + "';";
-      if (nomDepartement != "" || nomDepartement_Court != "" || idUFR != "") {
+      let idEffectif = " WHERE idDepartement = '" + id + "';";
+      if (
+        nomDepartement !== "" ||
+        nomDepartement_Court !== "" ||
+        idUFR !== ""
+      ) {
         query =
           "UPDATE DEPARTEMENT SET" +
           nomDepartement +
@@ -395,8 +400,15 @@ mariadb
     });
 
     // DELETE
-    app.delete("/ufr/:id", (req, res) => {
+    app.delete("/departement/:id", (req, res) => {
       console.log("trouver comment delete...");
+    });
+
+    app.delete("/dash/actions/:id", (req, res) => {
+      const id = parseInt(req.params.id);
+      const query =
+        "DELETE FROM DEPARTEMENT WHERE idDepartement = '" + id + "';";
+      requete(conn, res, query);
     });
   })
   .catch((err) => {

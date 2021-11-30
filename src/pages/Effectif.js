@@ -153,7 +153,6 @@ export default class Effectif extends Component {
                 nbMajAFaire={this.state.nbMajAFaire}
               />
             )}
-          )
           <SelectionFormation callback={this.callbackAjouterFormation} />
         </div>
       </div>
