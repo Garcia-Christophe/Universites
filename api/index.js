@@ -401,10 +401,6 @@ mariadb
 
     // DELETE
     app.delete("/departement/:id", (req, res) => {
-      console.log("trouver comment delete...");
-    });
-
-    app.delete("/dash/actions/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query =
         "DELETE FROM DEPARTEMENT WHERE idDepartement = '" + id + "';";
