@@ -6,11 +6,14 @@ export default class SelectionFormation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Données de la BDD
       ufrs: [],
       departements: [],
       parcours: [],
-      parcoursPossibles: [],
+      parcoursPossibles: [], // Liste adaptée pour le tri par département
       formations: [],
+
+      // Identifiants choisis de chaque liste
       idUfrChoisi: -1,
       idDepartementChoisi: -1,
       idParcoursChoisi: -1,
@@ -24,7 +27,11 @@ export default class SelectionFormation extends Component {
     this.choisirFormation = this.choisirFormation.bind(this);
   }
 
+  /**
+   * Méthode exécutée une seule fois après le 1er render.
+   */
   componentDidMount() {
+    // Récupère tous les UFRs
     fetch("http://localhost:8080/ufr")
       .then((res) => res.json())
       .then(
@@ -36,6 +43,7 @@ export default class SelectionFormation extends Component {
         }
       );
 
+    // Récupère tous les départements
     fetch("http://localhost:8080/departement")
       .then((res) => res.json())
       .then(
@@ -47,6 +55,7 @@ export default class SelectionFormation extends Component {
         }
       );
 
+    // Récupère toutes les formations
     fetch("http://localhost:8080/formation")
       .then((res) => res.json())
       .then(
@@ -58,6 +67,7 @@ export default class SelectionFormation extends Component {
         }
       );
 
+    // Récupère tous les parcours
     fetch("http://localhost:8080/parcours")
       .then((res) => res.json())
       .then(
@@ -70,12 +80,20 @@ export default class SelectionFormation extends Component {
       );
   }
 
+  /**
+   * Ajoute une formation dans la liste des formations choisies.
+   */
   ajouterFormation() {
+    // On vérifie si le parcours et la formation ont bien été choisies
     if (this.state.idParcoursChoisi === -1) {
+      // Alerte l'utilisateur de la non sélection du parcours
       alert("Veuillez choisir le parcours.");
     } else if (this.state.idFormationChoisie === -1) {
+      // Alerte l'utilisateur de la non sélection de la formation
       alert("Veuillez choisir la formation.");
     } else {
+      // Appelle la méthode du composant parent (Effectif) pour transmettre
+      // les identifians du parcours et de la formation choisis
       this.props.callback(
         this.state.idParcoursChoisi,
         this.state.idFormationChoisie
@@ -83,6 +101,11 @@ export default class SelectionFormation extends Component {
     }
   }
 
+  /**
+   * Met à jour les identifiants choisis.
+   * @param {*} e évènement (clic)
+   * @param {*} id l'identifiant de l'UFR sélectionné
+   */
   choisirUfr(e, id) {
     this.setState({
       idUfrChoisi: id,
@@ -93,23 +116,28 @@ export default class SelectionFormation extends Component {
     });
   }
 
+  /**
+   * Met à jour les identifiants choisis et adapte la liste des parcours possible
+   * suivant le département sélectionné.
+   */
   choisirDepartement(e, id) {
-    // toutes les formations du departement choisi
+    // On garde toutes les formations du departement choisi
     var listeFormations = this.state.formations.filter(
       (formation) => formation.Departement_idDepartement === id
     );
 
-    // liste des ids des parcours choisis (liste des Parcours_idParcours de listeFormations (uniques))
+    // On garde juste les identifiants des parcours des formations choisies
     var idParcoursChoisis = [];
     for (let formation in listeFormations) {
       idParcoursChoisis.push(listeFormations[formation].Parcours_idParcours);
     }
 
-    // tous les parcours de la listeFormations
+    // On stocke les parcours qui correspondent aux identifiants des parcours des formations choisies
     var listeParcours = this.state.parcours.filter((parcours) =>
       idParcoursChoisis.includes(parcours.idParcours)
     );
 
+    // Mise à jour des identifiants choisis et de la liste de parcours possibles
     this.setState({
       idDepartementChoisi: id,
       idParcoursChoisi: -1,
@@ -118,10 +146,20 @@ export default class SelectionFormation extends Component {
     });
   }
 
+  /**
+   * Met à jour l'identifiant du parcours choisi
+   * @param {*} e évènement (clic)
+   * @param {*} id l'identifiant du parcours sélectionné
+   */
   choisirParcours(e, id) {
     this.setState({ idParcoursChoisi: id, idFormationChoisie: -1 });
   }
 
+  /**
+   * Met à jour l'identifiant de la formation choisie
+   * @param {*} e évènement (clic)
+   * @param {*} id l'identifiant de la formation sélectionnée
+   */
   choisirFormation(e, id) {
     this.setState({ idFormationChoisie: id });
   }
@@ -129,15 +167,19 @@ export default class SelectionFormation extends Component {
   render() {
     return (
       <div className="div-principal-selection-formation">
+        {/* Titre de la page */}
         <div className="titre-selection-formations">
           <h2>Sélection formations</h2>
         </div>
         <br />
 
+        {/* Toutes les listes déroulantes */}
         <div className="div-dropdowns">
+          {/* Liste déroulante des UFRs */}
           <div className="div-selection">
             <p>UFR</p>
             <Dropdown>
+              {/* Nom de l'UFR sélectionné */}
               <Dropdown.Toggle variant="outline-warning" id="dropdown-basic">
                 {this.state.idUfrChoisi === -1
                   ? "UFR"
@@ -146,6 +188,7 @@ export default class SelectionFormation extends Component {
                     ).nomUFR_Court}
               </Dropdown.Toggle>
 
+              {/* Menu déroulant des UFRs */}
               <Dropdown.Menu>
                 {this.state.ufrs.map((ufr) => {
                   return (
@@ -160,9 +203,11 @@ export default class SelectionFormation extends Component {
             </Dropdown>
           </div>
 
+          {/* Liste déroulante des départements */}
           <div className="div-selection">
             <p>Departement</p>
             <Dropdown>
+              {/* Nom du département sélectionné */}
               <Dropdown.Toggle variant="outline-warning" id="dropdown-basic">
                 {this.state.idDepartementChoisi === -1
                   ? "Departement"
@@ -172,6 +217,7 @@ export default class SelectionFormation extends Component {
                     ).nomDepartement_Court}
               </Dropdown.Toggle>
 
+              {/* Menu déroulant des départements */}
               <Dropdown.Menu>
                 {this.state.departements
                   .filter(
@@ -198,9 +244,11 @@ export default class SelectionFormation extends Component {
             </Dropdown>
           </div>
 
+          {/* Liste déroulante des parcours */}
           <div className="div-selection">
             <p>Parcours</p>
             <Dropdown>
+              {/* Nom du parcours sélectionné */}
               <Dropdown.Toggle variant="outline-warning" id="dropdown-basic">
                 {this.state.idParcoursChoisi === -1
                   ? "Parcours"
@@ -213,6 +261,7 @@ export default class SelectionFormation extends Component {
                       .split(")")[0]}
               </Dropdown.Toggle>
 
+              {/* Menu déroulant des parcours */}
               <Dropdown.Menu>
                 {this.state.parcoursPossibles.map((parcours) => {
                   return (
@@ -229,9 +278,11 @@ export default class SelectionFormation extends Component {
             </Dropdown>
           </div>
 
+          {/* Liste déroulante des formations */}
           <div className="div-selection">
             <p>Formation</p>
             <Dropdown>
+              {/* Nom de la formation sélectionnée */}
               <Dropdown.Toggle variant="outline-warning" id="dropdown-basic">
                 {this.state.idFormationChoisie === -1
                   ? "Formation"
@@ -246,6 +297,7 @@ export default class SelectionFormation extends Component {
                     ).niveau}
               </Dropdown.Toggle>
 
+              {/* Menu déroulant des formations */}
               <Dropdown.Menu>
                 {this.state.formations
                   .filter(
@@ -270,6 +322,7 @@ export default class SelectionFormation extends Component {
         </div>
         <br />
 
+        {/* Bouton permettant de finaliser l'ajout de la formation */}
         <div className="button-ajouter-formation">
           <Button variant="warning" onClick={this.ajouterFormation}>
             Ajouter une formation

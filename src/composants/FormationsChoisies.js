@@ -7,6 +7,7 @@ export default class FormationsChoisies extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // liste des formations récupérées par le composant parent en propriétés
       formations: this.props.formationsChoisies,
     };
   }
@@ -14,15 +15,18 @@ export default class FormationsChoisies extends Component {
   render() {
     return (
       <div className="div-principal-formations-choisies">
+        {/* Titre de la page */}
         <div className="titre-formations-choisies">
           <h2>Formations choisies</h2>
         </div>
         <br />
 
+        {/* Liste des formations choisies */}
         <ul className="liste-selection-formations">
           {this.props.formationsChoisies.map((formation) => {
             return (
               <li className="item-liste-selection-formations">
+                {/* Bouton de suppression de la formation */}
                 <button
                   className="button-formations-choisies"
                   onClick={() =>
@@ -34,6 +38,8 @@ export default class FormationsChoisies extends Component {
                     style={{ height: "20px", width: "20px" }}
                   />
                 </button>
+
+                {/* Checkbox de la formation */}
                 <input
                   className="input-liste-selection-formations"
                   checked={formation.cochee}
@@ -45,6 +51,8 @@ export default class FormationsChoisies extends Component {
                   }
                   type="checkbox"
                 />
+
+                {/* Nom de la formation */}
                 <p className="text-formations-choisies">
                   {formation.type} {formation.niveau} - {formation.nomParcours}
                 </p>

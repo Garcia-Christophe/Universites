@@ -20,6 +20,7 @@ export default class Navigation extends Component {
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
+          {/* Logo et Nom de l'application */}
           <Navbar.Brand href="/">
             <img
               alt=""
@@ -30,8 +31,11 @@ export default class Navigation extends Component {
             />{" "}
             Universités
           </Navbar.Brand>
+
+          {/* Reste de la barre de navigation */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            {/* Pages secondaires */}
             <Nav className="me-auto">
               <Nav.Link href="/effectifs">Effectifs</Nav.Link>
               <Nav.Link href="/departements">Départements</Nav.Link>
@@ -48,6 +52,8 @@ export default class Navigation extends Component {
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
+
+            {/* Barre de recherche */}
             <Form className="d-flex">
               <FormControl
                 type="search"

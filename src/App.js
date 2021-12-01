@@ -9,7 +9,10 @@ import Departement from "./pages/Departement";
 function App() {
   return (
     <div>
+      {/* Ajout de la barre de navigation sur toute l'application */}
       <Navigation />
+
+      {/* Gestion de l'ensemble des liens (redirections) de l'application */}
       <Router>
         <Switch>
           <Route exact path="/">

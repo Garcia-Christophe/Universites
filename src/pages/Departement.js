@@ -6,7 +6,6 @@ import {
   Image,
   Dropdown,
 } from "react-bootstrap";
-import AffichageDepartements from "../composants/AffichageDepartements";
 import "../style/Departement.css";
 import retirer from "../data/retirer.png";
 
@@ -14,9 +13,14 @@ export default class Departement extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Si true affiche le formulaire, sinon le cache
       ajoutEnCours: false,
+
+      // Données de la BDD
       ufrs: [],
       departements: [],
+
+      // Informations du département en cours d'ajout
       departementTmp: {
         id: -1,
         nom: "",
@@ -29,11 +33,15 @@ export default class Departement extends Component {
     this.retirerDepartement = this.retirerDepartement.bind(this);
   }
 
+  /**
+   * Met à jour la liste des départements (récupère depuis la base de données).
+   */
   getDepartements() {
     fetch("http://localhost:8080/departement")
       .then((res) => res.json())
       .then(
         (result) => {
+          // Conversion des données pour mieux les manipuler
           var listeDepartements = [];
           result.map((dept) => {
             listeDepartements.push({
@@ -43,6 +51,10 @@ export default class Departement extends Component {
               UFR_idUFR: dept.UFR_idUFR,
             });
           });
+
+          // Mise à jour de la liste des départements
+          // Remise à zéro des informations du département en cours de création
+          // Mise à jour de l'état de la création
           this.setState({
             departements: listeDepartements,
             departementTmp: {
@@ -60,9 +72,14 @@ export default class Departement extends Component {
       );
   }
 
+  /**
+   * Méthode exécutée une seule fois après le 1er render.
+   */
   componentDidMount() {
+    // Récupère tous les départements de la base
     this.getDepartements();
 
+    // Récupère tous les UFRs de la base
     fetch("http://localhost:8080/ufr")
       .then((res) => res.json())
       .then(
@@ -75,7 +92,11 @@ export default class Departement extends Component {
       );
   }
 
+  /**
+   * Ajoute un département dans la base de données.
+   */
   ajouterDepartement() {
+    // On vérifie si l'identifiant n'est pas déjà pris par un autre département (celui-ci doit être unique dans la base)
     let idOK = true;
     let IDs = "";
     for (let i = 0; i < this.state.departements.length; i++) {
@@ -85,7 +106,7 @@ export default class Departement extends Component {
       IDs += " " + this.state.departements[i].id;
     }
 
-    // Vérification de l'unicité de l'ID, de sa valeur positive, et de la saisie du nom, du nom court et de l'UFR
+    // On vérifie li l'ID est unique, poisitif, et si la saisie du nom, du nom court et de l'UFR ont été faites
     if (
       idOK &&
       this.state.departementTmp.id > 0 &&
@@ -93,6 +114,7 @@ export default class Departement extends Component {
       this.state.departementTmp.nomCourt.length > 0 &&
       this.state.departementTmp.UFR_idUFR > 0
     ) {
+      // Envoie une requête d'insertion à l'API
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -107,6 +129,7 @@ export default class Departement extends Component {
         this.getDepartements()
       );
     } else {
+      // Sinon alerte l'utilisateur d'une information manquante/gênante
       alert(
         "Vérifiez la saisie du nom, du nom court, de l'identifiant (doit être strictement positif et unique) et de l'UFR.\nIDs existants :" +
           IDs +
@@ -115,7 +138,12 @@ export default class Departement extends Component {
     }
   }
 
+  /**
+   * Supprime le département de la base de données
+   * @param {*} idDept l'identifiant du département à supprimer
+   */
   retirerDepartement(idDept) {
+    // Envoie une requête de suppression à l'API
     const requestOptions = {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -130,12 +158,10 @@ export default class Departement extends Component {
   render() {
     return (
       <div className="principal-departement">
+        {/* Titre de la page */}
         <h1>Liste des départements</h1>
-        <AffichageDepartements
-          texte="Affichage des départements"
-          departements={this.state.departements}
-        />
 
+        {/* Affichage de la liste des départements avec un bouton pour pouvoir les supprimer et leur nom */}
         <ul className="liste-affichage-departements">
           {this.state.departements.map((dept) => {
             return (
@@ -157,15 +183,19 @@ export default class Departement extends Component {
           })}
         </ul>
 
+        {/* Bouton permettant d'afficher le formulaire d'ajout d'un nouveau département */}
         <Button
           variant="warning"
           onClick={() => this.setState({ ajoutEnCours: true })}
         >
           Ajouter un département
         </Button>
+
+        {/* Formulaire d'ajout d'un nouveau département */}
         {this.state.ajoutEnCours && (
           <div>
             <br />
+            {/* Saisie de lidentifiant */}
             <InputGroup size="sm" className="mb-3">
               <InputGroup.Text id="inputGroup-sizing-sm">ID</InputGroup.Text>
               <FormControl
@@ -188,6 +218,8 @@ export default class Departement extends Component {
                 }
               />
             </InputGroup>
+
+            {/* Saisie du nom */}
             <InputGroup size="sm" className="mb-3">
               <InputGroup.Text id="inputGroup-sizing-sm">Nom</InputGroup.Text>
               <FormControl
@@ -210,6 +242,8 @@ export default class Departement extends Component {
                 }
               />
             </InputGroup>
+
+            {/* Saisie du nom court */}
             <InputGroup size="sm" className="mb-3">
               <InputGroup.Text id="inputGroup-sizing-sm">
                 Nom court
@@ -234,6 +268,8 @@ export default class Departement extends Component {
                 }
               />
             </InputGroup>
+
+            {/* Saisie de l'UFR */}
             <div className="div-selection-ufr">
               <p>UFR</p>
               <Dropdown>
@@ -269,6 +305,7 @@ export default class Departement extends Component {
               </Dropdown>
             </div>
 
+            {/* Bouton validant la création du département */}
             <Button variant="warning" onClick={this.ajouterDepartement}>
               Valider
             </Button>

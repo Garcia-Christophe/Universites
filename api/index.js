@@ -7,7 +7,6 @@ require("dotenv").config();
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: "*" }));
-// app.use(express.urlencoded());
 
 // Écoute du serveur
 app.listen(8080, () => {
@@ -27,85 +26,106 @@ mariadb
     database: "zil3-zgarciach",
   })
   .then((conn) => {
-    // GET
+    // ========================================
+    // Méthodes GET
+    // =========================================
+
+    // Récupérer tous les UFRs
     app.get("/ufr", (req, res) => {
       const query = "select * from UFR";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les sites
     app.get("/siteuniv", (req, res) => {
       const query = "select * from SITE_UNIV";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les parcours
     app.get("/parcours", (req, res) => {
       const query = "select * from PARCOURS";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les formations
     app.get("/formation", (req, res) => {
       const query = "select * from FORMATION";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les effectifs
     app.get("/effectif", (req, res) => {
       const query = "select * from EFFECTIF";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les départements
     app.get("/departement", (req, res) => {
       const query = "select * from DEPARTEMENT";
       requete(conn, res, query);
     });
 
+    // Récupérer tous les démographies
     app.get("/demographie", (req, res) => {
       const query = "select * from DEMOGRAPHIE";
       requete(conn, res, query);
     });
 
+    // Récupérer un UFR en particulier
     app.get("/ufr/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from UFR where idUFR = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer un site en particulier
     app.get("/siteuniv/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from SITE_UNIV where idSite = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer un parcours en particulier
     app.get("/parcours/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from PARCOURS where idParcours = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer une formation en particulier
     app.get("/formation/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from FORMATION where idFormation = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer un effectif en particulier
     app.get("/effectif/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from EFFECTIF where idEffectif = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer un département en particulier
     app.get("/departement/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from DEPARTEMENT where idDepartement = " + id;
       requete(conn, res, query);
     });
 
+    // Récupérer une démographie en particulier
     app.get("/demographie/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query = "select * from DEMOGRAPHIE where idDemographie = " + id;
       requete(conn, res, query);
     });
 
-    // POST
+    // ========================================
+    // Méthodes POST
+    // =========================================
+
+    // Insérer un nouvel UFR
     app.post("/ufr", (req, res) => {
       const query =
         "INSERT INTO UFR (idUFR, nomUFR, nomUFR_Court) VALUES ('" +
@@ -118,6 +138,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer un nouveau site
     app.post("/siteuniv", (req, res) => {
       const query =
         "INSERT INTO SITE_UNIV (idSite, nomSite) VALUES ('" +
@@ -128,6 +149,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer un nouveau parcours
     app.post("/parcours", (req, res) => {
       const query =
         "INSERT INTO PARCOURS (idParcours, nomParcours) VALUES ('" +
@@ -138,6 +160,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer une nouvelle formation
     app.post("/formation", (req, res) => {
       const query =
         "INSERT INTO FORMATION (idFormation, type, niveau, Parcours_idParcours, Departement_idDepartement) VALUES ('" +
@@ -154,6 +177,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer unun nouvel effectif
     app.post("/effectif", (req, res) => {
       const query =
         "INSERT INTO EFFECTIF (anneeRef, effectif, Demographie_idDemographie, Formation_idFormation) VALUES ('" +
@@ -168,6 +192,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer un nouveau département
     app.post("/departement", (req, res) => {
       const query =
         "INSERT INTO DEPARTEMENT (idDepartement, nomDepartement, nomDepartement_Court, UFR_idUFR) VALUES ('" +
@@ -182,6 +207,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Insérer une nouvelle démographie
     app.post("/demographie", (req, res) => {
       const query =
         "INSERT INTO DEMOGRAPHIE (idDemographie, ageDemographie, anneeDemographie, nbPersonnes) VALUES ('" +
@@ -196,7 +222,11 @@ mariadb
       requete(conn, res, query);
     });
 
-    // PUT
+    // ========================================
+    // Méthodes PUT
+    // =========================================
+
+    // Mettre à jour les informations d'un UFR
     app.put("/ufr/:id", (req, res) => {
       const id = parseInt(req.params.id);
       var query = "";
@@ -221,6 +251,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Mettre à jour les informations d'un site
     app.put("/siteuniv/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query =
@@ -247,6 +278,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Mettre à jour les informations d'une formation
     app.put("/formation/:id", (req, res) => {
       const id = parseInt(req.params.id);
       var query = "";
@@ -303,6 +335,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Mettre à jour les informations d'un effectif
     app.put("/effectif/:idFormation/:anneeRef", (req, res) => {
       const idFormation = parseInt(req.params.idFormation);
       const anneeRef = parseInt(req.params.anneeRef);
@@ -340,6 +373,7 @@ mariadb
       requete(conn, res, query);
     });
 
+    // Mettre à jour les informations d'un département
     app.put("/departement/:id", (req, res) => {
       const id = parseInt(req.params.id);
       var query = "";
@@ -383,40 +417,26 @@ mariadb
       requete(conn, res, query);
     });
 
-    // a refaire
-    app.put("/demographie/:id", (req, res) => {
-      const id = parseInt(req.params.id);
-      const query =
-        "UPDATE DEMOGRAPHIE SET ageDemographie = '" +
-        req.body.ageDemographie +
-        "', anneeDemographie = '" +
-        req.body.anneeDemographie +
-        "', nbPersonnes = '" +
-        req.body.nbPersonnes +
-        "' WHERE idDemographie = " +
-        id +
-        ";";
-      requete(conn, res, query);
-    });
+    // ========================================
+    // Méthodes DELETE
+    // =========================================
 
-    // DELETE
+    // Supprimer un département
     app.delete("/departement/:id", (req, res) => {
       const id = parseInt(req.params.id);
       const query =
         "DELETE FROM DEPARTEMENT WHERE idDepartement = '" + id + "';";
       requete(conn, res, query);
     });
-
-    app.delete("/ufr/:id", (req, res) => {
-      const id = parseInt(req.params.id);
-      const query = "DELETE FROM UFR WHERE idUFR = '" + id + "';";
-      requete(conn, res, query);
-    });
   })
   .catch((err) => {
+    // En cas d'erreur : affiche l'erreur
     console.log(err);
   });
 
+/**
+ * La fonction permettant d'exécuter la requête sur la base de données.
+ */
 function requete(conn, res, query) {
   conn
     .query(query)
