@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "react-bootstrap";
+import { Image, Button } from "react-bootstrap";
 import "../style/FormationsChoisies.css";
 import retirer from "../data/retirer.png";
 
@@ -60,6 +60,31 @@ export default class FormationsChoisies extends Component {
             );
           })}
         </ul>
+
+        {/* Boutons permettant de cocher et décocher toutes les formations */}
+        <div className="cocherDecocherFormations">
+          <Button
+            className="buttonTout"
+            variant="warning"
+            onClick={() => this.props.cocherDecocherFormations(true)}
+          >
+            Tout cocher
+          </Button>
+          <Button
+            className="buttonTout"
+            variant="warning"
+            onClick={() => this.props.cocherDecocherFormations(false)}
+          >
+            Tout décocher
+          </Button>
+          <Button
+            className="buttonTout"
+            variant="warning"
+            onClick={() => this.props.supprimerFormations()}
+          >
+            Tout supprimer
+          </Button>
+        </div>
       </div>
     );
   }

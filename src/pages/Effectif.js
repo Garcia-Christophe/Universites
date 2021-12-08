@@ -133,6 +133,36 @@ export default class Effectif extends Component {
   };
 
   /**
+   * Méthode appelée par un composant enfant lorsque l'utilisateur souhaite cocher ou décocher toutes les formations.
+   * @param {*} cochee true si l'utilisateur souhaite cocher toutes les formations, false sinon
+   */
+  callbackCocherDecocherFormations = (cocher) => {
+    // Mise à jour de l'état des formations (à cocher)
+    var listeAJour = this.state.formationsChoisies;
+    listeAJour.forEach(function (formation) {
+      formation.cochee = cocher;
+    });
+
+    // Mise à jour de la liste des formations, et incrémentation du nombre de mises à jour du graphique
+    this.setState({
+      formationsChoisies: listeAJour,
+      nbMajAFaire: this.state.nbMajAFaire + 1,
+    });
+  };
+
+  /**
+   * Méthode appelée par un composant enfant lorsque l'utilisateur souhaite supprimer toutes les formations.
+   */
+  callbackSupprimerFormations = () => {
+    // Mise à jour de la liste des formations, et incrémentation du nombre de mises à jour du graphique
+    this.setState({
+      formationsChoisies: [],
+      idsParcoursFormations: [],
+      nbMajAFaire: this.state.nbMajAFaire + 1,
+    });
+  };
+
+  /**
    * Informe le graphique s'il faut afficher ou non la formation lors du clic sur la checkbox.
    * @param {*} id l'identifiantde la formation cochée/décochée
    * @param {*} cochee true si l'utilisateur a coché, false sinon
@@ -182,6 +212,8 @@ export default class Effectif extends Component {
             formationsChoisies={this.state.formationsChoisies}
             cocherFormation={this.cocherFormation}
             retirerFormation={this.retirerFormation}
+            cocherDecocherFormations={this.callbackCocherDecocherFormations}
+            supprimerFormations={this.callbackSupprimerFormations}
           />
 
           {/* Composant enfant : affichage des effectifs (graphique) uniquement si la liaison avec la BDD s'est bien passée */}

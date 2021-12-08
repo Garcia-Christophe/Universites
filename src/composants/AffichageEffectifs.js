@@ -96,16 +96,7 @@ export default class AffichageEffectifs extends Component {
       // Données du graphique
       dataBar: {
         labels: dates,
-        datasets: [
-          {
-            label: "Aucune donnée",
-            data: [],
-            backgroundColor: null,
-            borderWidth: 2,
-            borderColor: null,
-            yAxisID: "yLeft",
-          },
-        ],
+        datasets: [],
       },
 
       // Options du graphique
